@@ -1,6 +1,7 @@
 package Modelos;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Persona {
 
@@ -17,8 +18,61 @@ public class Persona {
     // Constructor
     public Persona() {}
 
+    public Persona(
+            String id,
+            String nombre,
+            String apellido,
+            String correo,
+            String numeroDocumento,
+            String telefono,
+            LocalDate fechaNacimiento
+            ) {
+
+        /*
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.numeroDocumento = numeroDocumento;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        */
+        setId(id);
+        setNombre(nombre);
+        setApellido(apellido);
+        setCorreo(correo);
+        setNumeroDocumento(numeroDocumento);
+        setTelefono(telefono);
+        setFechaNacimiento(fechaNacimiento);
+    }
+
     // Métodos Persona
 
+    // CalcularEdad
+    public int ObtenerEdad() {
+        // Restar la Hoy() - FechaNacimiento
+        LocalDate fechaNacimiento = getFechaNacimiento();
+        LocalDate fechaActual = LocalDate.now();
+        return fechaActual.getYear() - fechaNacimiento.getYear();
+    }
+
+    public int ObtenerEdadPorIA() {
+        LocalDate hoy = LocalDate.now(); // Obtiene la fecha actual del sistema
+        Period periodo = Period.between(fechaNacimiento, hoy);
+        return periodo.getYears();
+    }
+
+    // MostrarInfo Basica
+    public String mostrarInfoBasica() {
+        return String.format("Nombre: %s %s, Edad: %d años, Correo: %s",
+                nombre, apellido, correo);
+    }
+
+    public String mostrarInfoBasicaIa() {
+        return "Nombre: " + nombre + " " + apellido +
+                ", Edad: " +
+                ", Correo: " + correo;
+    }
     // Getters & Setters
 
     // id
@@ -41,7 +95,12 @@ public class Persona {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if (nombre != null) {
+            this.nombre = nombre;
+        } else {
+            System.out.println("El nombre no puede estar vacio");
+        }
+
     }
 
     // apellido
@@ -77,7 +136,7 @@ public class Persona {
     }
 
     public void setTelefono(String telefono) {
-
+        this.telefono = telefono;
     }
 
     // Fecha Nacimiento
